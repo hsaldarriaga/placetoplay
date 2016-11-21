@@ -1,4 +1,3 @@
-
 <?php
 
 namespace Hsaldarriaga\placetopay\models;
