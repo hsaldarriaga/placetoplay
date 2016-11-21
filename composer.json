@@ -1,0 +1,20 @@
+{
+    "name": "saldarriaga/placetopay",
+    "description": "Prueba para placetopay",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Hernan S.",
+            "email": "hernan.saldarriaga.is@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ext-soap": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Saldarriaga\\placetopay\\": "src/"
+        }
+    }
+}
