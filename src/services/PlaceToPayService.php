@@ -1,10 +1,10 @@
 <?php
 
-namespace Saldarriaga\placetopay\services;
+namespace Hsaldarriaga\placetopay\services;
 
-use Saldarriaga\placetopay\models\PSERequest;
-use Saldarriaga\placetopay\models\PSEMultiCreditRequest;
-use Saldarriaga\placetopay\models\Person;
+use Hsaldarriaga\placetopay\models\PSERequest;
+use Hsaldarriaga\placetopay\models\PSEMultiCreditRequest;
+use Hsaldarriaga\placetopay\models\Person;
 
 interface PlaceToPayService 
 {

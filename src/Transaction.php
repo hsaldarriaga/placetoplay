@@ -1,36 +1,38 @@
 <?php
 
-namespace Saldarriaga\placetopay;
+namespace Hsaldarriaga\placetopay;
 
-use Saldarriaga\placetopay\models\Authentication;
-use Saldarriaga\placetopay\models\PSERequest;
-use Saldarriaga\placetopay\models\PSEMultiCreditRequest;
-use Saldarriaga\placetopay\models\Person;
+use Hsaldarriaga\placetopay\models\Authentication;
+use Hsaldarriaga\placetopay\models\PSERequest;
+use Hsaldarriaga\placetopay\models\PSEMultiCreditRequest;
+use Hsaldarriaga\placetopay\models\Person;
 
-use Saldarriaga\placetopay\services\PlaceToPayService;
+use Hsaldarriaga\placetopay\services\PlaceToPayService;
 
-use Saldarriaga\placetopay\components\Client;
+use Hsaldarriaga\placetopay\components\Client;
 
 class Transaction {
 
+	private $tranKey;
 	private $auth;
 	private $client;
 	private $service;
 
-	public function __constructor($wsdl, $login, $tranKey, $additionalAuthData) {
+	function __construct($wsdl, $login, $tranKey, $additionalAuthData = null) {
+		$this->tranKey = $tranKey;
 		$this->client = PlaceToPayFactory::getClient($wsdl);
 		$this->service = PlaceToPayFactory::getService($this->client);
 		$this->auth = new Authentication;
-		$auth->login = $login;
-		$auth->additional = $additionalAuthData;
+		$this->auth->login = $login;
+		$this->auth->additional = $additionalAuthData;
 	}
 
 	private function updateSeed() {
 		$seed = date('c'); 
-		$hashString = sha1($seed . $tranKey, false);
-		$auth->tranKey = $hashString;
-		$auth->seed = $seed;
-		$client->setDataForAllRequest(['auth' => $auth]);
+		$hashString = sha1($seed . $this->tranKey, false);
+		$this->auth->tranKey = $hashString;
+		$this->auth->seed = $seed;
+		$this->client->setDataForAllRequest(['auth' => $this->auth]);
 	}
 
 	public function getBankList() {

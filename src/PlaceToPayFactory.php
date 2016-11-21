@@ -1,11 +1,11 @@
 <?php
 
-namespace Saldarriaga\placetopay;
+namespace Hsaldarriaga\placetopay;
 
-use Saldarriaga\placetopay\components\PTPSoapClient;
-use Saldarriaga\placetopay\services\PlaceToPayServiceImpl;
+use Hsaldarriaga\placetopay\components\PTPSoapClient;
+use Hsaldarriaga\placetopay\services\PlaceToPayServiceImpl;
 
-use Saldarriaga\placetopay\components\Client;
+use Hsaldarriaga\placetopay\components\Client;
 
 abstract class PlaceToPayFactory {
 

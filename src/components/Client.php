@@ -1,6 +1,6 @@
 <?php
 
-namespace Saldarriaga\placetopay\components;
+namespace Hsaldarriaga\placetopay\components;
 
 use SoapClient;
 
@@ -8,5 +8,5 @@ interface Client {
 	
 	public function setDataForAllRequest($data);
 
-	public function call($function, $argument,  $options = null);
+	public function call($function, $argument);
 }

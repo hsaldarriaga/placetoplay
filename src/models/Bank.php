@@ -1,14 +1,9 @@
 <?php
 
-namespace Saldarriaga\placetopay\models;
+namespace Hsaldarriaga\placetopay\models;
 
 class Bank {
 	
 	public $bankCode;
 	public $bankName;
-
-	public function __constructor($bankCode, $bankName) {
-		$this->$bankCode = $bankCode;
-		$this->$bankName = $bankName;
-	}
 }

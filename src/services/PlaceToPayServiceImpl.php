@@ -1,24 +1,30 @@
 <?php
 
-namespace Saldarriaga\placetopay\services;
+namespace Hsaldarriaga\placetopay\services;
 
-use Saldarriaga\placetopay\models\PSERequest;
-use Saldarriaga\placetopay\models\PSEMultiCreditRequest;
-use Saldarriaga\placetopay\models\Person;
+use Hsaldarriaga\placetopay\models\PSERequest;
+use Hsaldarriaga\placetopay\models\PSEMultiCreditRequest;
+use Hsaldarriaga\placetopay\models\Person;
 
-use Saldarriaga\placetopay\components\Client;
+use Hsaldarriaga\placetopay\components\Client;
 
-class PlaceToPayServiceImpl extends PlaceToPayService 
+class PlaceToPayServiceImpl implements PlaceToPayService 
 {
 	private $client;
 
-	public function __constructor(Client $client) {
+	function __construct(Client $client) {
 		$this->client = $client;
 	}
 
 
 	public function getBankList() {
 		$response = $this->client->call('getBankList', null);
+		$items = $response->getBankListResult->item;
+		$converted = [];
+		foreach($items as $item) {
+			array_push($converted, $this->recast('Hsaldarriaga\placetopay\models\Bank', $item));
+		}
+		return $converted;
 	}
 
 	public function createTransaction(PSERequest $request, Person $payer, Person $buyer = null, Person $shipping = null) {
@@ -30,8 +36,7 @@ class PlaceToPayServiceImpl extends PlaceToPayService
 			$request->userAgent = $_SERVER['HTTP_USER_AGENT'];
 		}
 		$response = $this->client->call('createTransaction', ['transaction' => $request]);
-		print_r($response);
-		return $response;
+		return $this->recast('Hsaldarriaga\placetopay\models\PSEResponse', $response->createTransactionResult);
 	}
 
 	public function createMultiCreditTransaction(PSEMultiCreditRequest $request, Person $payer, Person $buyer = null, Person $shipping = null) {
@@ -43,8 +48,7 @@ class PlaceToPayServiceImpl extends PlaceToPayService
 			$request->userAgent = $_SERVER['HTTP_USER_AGENT'];
 		}
 		$response = $this->client->call('createTransactionMultiCredit', ['transaction' => $request]);
-		print_r($response);
-		return $response;
+		return $this->recast('Hsaldarriaga\placetopay\models\PSEResponse', $response->createTransactionMultiCreditResult);
 	}
 
 	public function getTransactionInformation($transactionID) {
@@ -52,7 +56,33 @@ class PlaceToPayServiceImpl extends PlaceToPayService
 			throw new \InvalidArgumentException('Only accept integer');
 		}
 		$response = $this->client->call('getTransactionInformation', ['transactionID' => $transactionID]);
-		print_r($response);
-		return $response;
+		return $this->recast('Hsaldarriaga\placetopay\models\Information', $response->getTransactionInformationResult);
+	}
+
+
+	/**
+	 * Taken from: http://stackoverflow.com/questions/3243900/convert-cast-an-stdclass-object-to-another-class
+	 * recast stdClass object to an object with type
+	 *
+	 * @param string $className
+	 * @param stdClass $object
+	 * @throws InvalidArgumentException
+	 * @return mixed new, typed object
+	 */
+	function recast($className, \stdClass &$object)
+	{
+	    if (!class_exists($className))
+	        throw new InvalidArgumentException(sprintf('Inexistant class %s.', $className));
+
+	    $new = new $className();
+
+	    foreach($object as $property => &$value)
+	    {
+	        $new->$property = &$value;
+	        unset($object->$property);
+	    }
+	    unset($value);
+	    $object = (unset) $object;
+	    return $new;
 	}
 }

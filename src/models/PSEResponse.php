@@ -1,6 +1,6 @@
 <?php
 
-namespace Saldarriaga\placetopay\models;
+namespace Hsaldarriaga\placetopay\models;
 
 class PSEResponse {
 

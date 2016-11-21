@@ -14,7 +14,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Saldarriaga\\placetopay\\": "src/"
+            "Hsaldarriaga\\placetopay\\": "src/"
         }
     }
 }

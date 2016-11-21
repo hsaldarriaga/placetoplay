@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Saldarriaga\placetopay\models;
+namespace Hsaldarriaga\placetopay\models;
 
 class Attribute {
 	public $name;
 	public $value;
 
-	function __constructor($name, $value) {
+	function __construct($name, $value) {
 		$this->name = $name;
 		$this->value = $value;
 	}
